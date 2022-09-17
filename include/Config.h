@@ -7,7 +7,7 @@ namespace DetachedLightning {
         spdlog::level::level_enum GetFlushLevel() const { return m_flushLevel; }
 
     private:
-        spdlog::level::level_enum m_logLevel{spdlog::level::level_enum::info};
+        spdlog::level::level_enum m_logLevel{spdlog::level::level_enum::debug};
         spdlog::level::level_enum m_flushLevel{spdlog::level::level_enum::trace};
     };
 

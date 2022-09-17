@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include "Config.h"
+#include "Hooks.h"
 
 using namespace RE::BSScript;
 using namespace DetachedLightning;
