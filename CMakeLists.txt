@@ -21,6 +21,7 @@ configure_file(
         @ONLY)
 
 set(headers
+        src/PCH.h
         include/Config.h
         include/Hooks.h)
 
@@ -69,7 +70,7 @@ target_precompile_headers(${PROJECT_NAME}
         PRIVATE
         src/PCH.h)
 
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/Sample"
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include"
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 install(TARGETS ${PROJECT_NAME}
