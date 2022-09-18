@@ -40,7 +40,7 @@ namespace DetachedLightning {
     static void m_SetRotationZ(RE::BeamProjectile* proj, RE::NiPoint3* pos);
     static REL::Relocation<decltype(m_SetRotationZ)>& m_getSetRotationZ();
 
-    static inline REL::Relocation<decltype(m_SetRotationZ)> m_originalUpdatePos;
+    static inline REL::Relocation<decltype(m_SetRotationZ)> m_originalSetRotationZ;
   };
 
   class RefHandle_GetHook {

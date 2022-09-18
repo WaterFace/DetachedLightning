@@ -134,4 +134,20 @@ REL::Relocation<decltype(TESObjectREFR_SetRotationXHook::m_SetRotationX)>& TESOb
   static REL::Relocation<decltype(m_SetRotationX)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x1ba, 0x1b6));
   return value;
 }
+
+void TESObjectREFR_SetRotationZHook::Hook(SKSE::Trampoline& trampoline) {
+  SKSE::log::debug("Trying to hook into TESObjectREFR_SetRotationZHook");
+
+  m_originalSetRotationZ
+    = trampoline.write_call<5>(
+      m_getSetRotationZ().address(),
+      reinterpret_cast<uintptr_t>(m_SetRotationZ));
+
+  SKSE::log::debug("Hook into TESObjectREFR_SetRotationXHook written.");
+}
+
+void TESObjectREFR_SetRotationZHook::m_SetRotationZ(RE::BeamProjectile* proj, RE::NiPoint3* pos) {
+  if (BeamProjectileHook::GetTag(proj) != 1) {
+    m_originalSetRotationZ(proj, pos);
+  }
 }
