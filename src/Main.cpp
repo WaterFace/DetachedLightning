@@ -37,7 +37,7 @@ namespace {
   void InitializeHooking() {
     log::trace("Initializing trampoline...");
     auto& trampoline = GetTrampoline();
-    trampoline.create(64);
+    trampoline.create(128);
     log::trace("Trampoline initialized.");
 
     BeamProjectileHook::Hook(trampoline);
