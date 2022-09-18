@@ -8,6 +8,4 @@ Closely based on one of the features from [FenixProjectilesAPI](https://github.c
 
 # Demonstration
 
-
-https://user-images.githubusercontent.com/1782224/190889148-4bac6aa8-3e6f-4cfd-bb36-6e13d22f108f.mov
-
+https://user-images.githubusercontent.com/1782224/190925363-a597f880-abbd-40f0-8433-ac147927a85e.webm
