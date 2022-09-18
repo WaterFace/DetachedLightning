@@ -152,3 +152,9 @@ void TESObjectREFR_SetRotationZHook::m_SetRotationZ(RE::BeamProjectile* proj, RE
     m_originalSetRotationZ(proj, pos);
   }
 }
+REL::Relocation<decltype(TESObjectREFR_SetRotationZHook::m_SetRotationZ)>& TESObjectREFR_SetRotationZHook::m_getSetRotationZ() {
+  // SE: 0x140733cc0+0x1cd, in the function BeamProjectile__UpdateImpl_140733cc0
+  // AE: 0x14075ffa0+0x1c9, in the function BeamProjectile__UpdateImpl_14075ffa0
+  static REL::Relocation<decltype(m_SetRotationZ)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x1cd, 0x1c9));
+  return value;
+}
