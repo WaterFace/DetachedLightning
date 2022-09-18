@@ -107,7 +107,7 @@ void NodeHook::Hook(SKSE::Trampoline& trampoline) {
 
   SKSE::log::debug("Trying to hook into the middle of BeamProjectile__UpdateImpl.");
 
-  uintptr_t return_addr = RELOCATION_ID(42568, 43749).address() + RELOCATION_OFFSET(0x2d3, 0x2cf);
+  uintptr_t return_addr = RELOCATION_ID(42586, 43749).address() + RELOCATION_OFFSET(0x2d3, 0x2cf);
 
 
   struct Code : Xbyak::CodeGenerator
@@ -130,7 +130,7 @@ void NodeHook::Hook(SKSE::Trampoline& trampoline) {
   auto code = trampoline.allocate(codeSize);
   std::memcpy(code, xbyakCode.getCode(), codeSize);
 
-  trampoline.write_branch<5>(RELOCATION_ID(42568, 43749).address() + RELOCATION_OFFSET(0x2c1, 0x2bd), (uintptr_t)code);
+  trampoline.write_branch<5>(RELOCATION_ID(42586, 43749).address() + RELOCATION_OFFSET(0x2c1, 0x2bd), (uintptr_t)code);
   SKSE::log::debug("Hook into the middle of BeamProjectile__UpdateImpl written.");
 }
 
