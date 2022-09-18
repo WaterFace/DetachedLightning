@@ -6,7 +6,7 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 ########################################################################################################################
 project(
         DetachedLightning
-        VERSION 1.0.0
+        VERSION 1.1.0
         DESCRIPTION "A plugin that detaches lightning spell effects from the caster's hand."
         LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
