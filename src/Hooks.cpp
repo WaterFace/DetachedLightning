@@ -21,16 +21,16 @@ void BeamProjectileHook::Hook(SKSE::Trampoline& trampoline) {
 
 void BeamProjectileHook::TagProjectile(RE::Projectile* proj, uint32_t tag) {
   // Stick some data in an unused bit of memory in the Projectile struct
-  proj->pad164 = tag;
+  proj->GetProjectileRuntimeData().pad164 = tag;
 }
 
 uint32_t BeamProjectileHook::GetTag(RE::Projectile* proj) {
-  return proj->pad164;
+  return proj->GetProjectileRuntimeData().pad164;
 }
 
 RE::BeamProjectile* BeamProjectileHook::m_beamProjectileConstructor(RE::BeamProjectile* proj, void* launchData) {
   proj = BeamProjectileHook::m_originalBeamProjectileConstructor(proj, launchData);
-  auto spell = proj->spell;
+  auto spell = proj->GetProjectileRuntimeData().spell;
 
   // tag fire-and-forget beam spells (mostly lightning bolt spells)
   if (spell) {
