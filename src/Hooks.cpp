@@ -1,4 +1,5 @@
 #include "Hooks.h"
+#include <REL/Relocation.h>
 #include <xbyak/xbyak.h>
 
 using namespace DetachedLightning;
@@ -63,6 +64,37 @@ void TESObjectREFR_SetPositionHook::m_SetPosition(RE::BeamProjectile* proj, RE::
     m_originalSetPosition(proj, pos);
   }
 }
+
+REL::Relocation<decltype(RefHandle_GetHook::m_refHandle_Get)>& RefHandle_GetHook::m_getRefHandle_Get() {
+  // SE: 0x14074b170+0x117, in the function CreateProjectile_14074b170
+  // AE: 0x140779220+0x118, in the function CreateProjectile_140779220
+  static REL::Relocation<decltype(m_refHandle_Get)> value(RELOCATION_ID(42928, 44108), RELOCATION_OFFSET(0x117, 0x118));
+  return value;
+}
+
+void RefHandle_GetHook::Hook(SKSE::Trampoline& trampoline) {
+  SKSE::log::debug("Starting to hook RefHandle_GetHook::RefHandle::Get");
+
+  RefHandle_GetHook::m_originalRefHandle_Get
+    = trampoline.write_call<5>(
+      RefHandle_GetHook::m_getRefHandle_Get().address(),
+      reinterpret_cast<uintptr_t>(RefHandle_GetHook::m_refHandle_Get));
+
+  SKSE::log::debug("RefHandle_GetHook::RefHandle::Get hook written");
+}
+
+bool RefHandle_GetHook::m_refHandle_Get(uint32_t* handle, RE::Projectile** proj) {
+  // I think this just lies to the game so it doesn't attach the newly created lightning
+  // spell to the caster's hand
+
+  auto found = m_originalRefHandle_Get(handle, proj);
+  if (!found || !*proj) {
+    return found;
+  }
+
+  return (BeamProjectileHook::GetTag(*proj) != 1);
+}
+
 void NodeHook::Hook(SKSE::Trampoline& trampoline) {
   // This is a weird one. The original code seems to write to the node's x,y,z coordinates,
   // but we want to make that conditional. So we'll insert some asm code that calls into

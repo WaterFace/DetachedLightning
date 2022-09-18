@@ -44,6 +44,7 @@ namespace {
     TESObjectREFR_SetPositionHook::Hook(trampoline);
     TESObjectREFR_SetRotationXHook::Hook(trampoline);
     TESObjectREFR_SetRotationZHook::Hook(trampoline);
+    RefHandle_GetHook::Hook(trampoline);
     NodeHook::Hook(trampoline);
   }
 
