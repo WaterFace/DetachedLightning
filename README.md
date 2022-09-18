@@ -1,6 +1,6 @@
 # DetachedLightning
-This is a SKSE plugin for Skyrim AE, SE, and VR that detaches lightning spell effects from their caster's hands.
-As it was developed using [CommonLibSSE-NG](https://github.com/CharmedBaryon/CommonLibSSE-NG), it should be compatible with SE, AE (1.16.353), and VR. (VR has not been tested.)
+This is a SKSE plugin for Skyrim AE and SE that detaches lightning spell effects from their caster's hands.
+As it was developed using [CommonLibSSE-NG](https://github.com/CharmedBaryon/CommonLibSSE-NG), it should be compatible with SE and AE (1.16.353).
 Currently *does not* support AE 1.16.629, but it should be an easy update once CommonLibSSE-NG updates.
 
 # Credits
