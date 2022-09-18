@@ -111,3 +111,27 @@ void NodeHook::m_moveNode(float x, float y, float z, RE::Projectile* proj) {
     node->local.translate.z = z;
   }
 }
+
+void TESObjectREFR_SetRotationXHook::Hook(SKSE::Trampoline& trampoline) {
+  SKSE::log::debug("Trying to hook into TESObjectREFR_SetRotationXHook");
+
+  m_originalSetRotationX
+    = trampoline.write_call<5>(
+      m_getSetRotationX().address(),
+      reinterpret_cast<uintptr_t>(m_SetRotationX));
+
+  SKSE::log::debug("Hook into TESObjectREFR_SetRotationXHook written.");
+}
+
+void TESObjectREFR_SetRotationXHook::m_SetRotationX(RE::BeamProjectile* proj, RE::NiPoint3* pos) {
+  if (BeamProjectileHook::GetTag(proj) != 1) {
+    m_originalSetRotationX(proj, pos);
+  }
+}
+REL::Relocation<decltype(TESObjectREFR_SetRotationXHook::m_SetRotationX)>& TESObjectREFR_SetRotationXHook::m_getSetRotationX() {
+  // SE: 0x140733cc0+0x1ba, in the function BeamProjectile__UpdateImpl_140733cc0
+  // AE: 0x14075ffa0+0x1b6, in the function BeamProjectile__UpdateImpl_14075ffa0
+  static REL::Relocation<decltype(m_SetRotationX)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x1ba, 0x1b6));
+  return value;
+}
+}

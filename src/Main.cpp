@@ -42,6 +42,7 @@ namespace {
 
     BeamProjectileHook::Hook(trampoline);
     TESObjectREFR_SetPositionHook::Hook(trampoline);
+    TESObjectREFR_SetRotationXHook::Hook(trampoline);
     NodeHook::Hook(trampoline);
   }
 

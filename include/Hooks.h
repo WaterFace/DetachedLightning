@@ -31,7 +31,7 @@ namespace DetachedLightning {
     static void m_SetRotationX(RE::BeamProjectile* proj, RE::NiPoint3* pos);
     static REL::Relocation<decltype(m_SetRotationX)>& m_getSetRotationX();
 
-    static inline REL::Relocation<decltype(m_SetRotationX)> m_originalUpdatePos;
+    static inline REL::Relocation<decltype(m_SetRotationX)> m_originalSetRotationX;
   };
   class TESObjectREFR_SetRotationZHook {
   public:
