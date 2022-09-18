@@ -41,6 +41,7 @@ namespace {
     log::trace("Trampoline initialized.");
 
     BeamProjectileHook::Hook(trampoline);
+    NodeHook::Hook(trampoline);
   }
 
   void InitializeMessaging() {
