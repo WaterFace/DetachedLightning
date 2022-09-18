@@ -31,7 +31,7 @@ namespace {
     log->flush_on(debugConfig.GetFlushLevel());
 
     spdlog::set_default_logger(std::move(log));
-    spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%n] [%l] [%t] [%s:%#] %v");
+    spdlog::set_pattern("[%H:%M:%S] [%l] [%s:%#] %v");
   }
 
   void InitializeHooking() {
@@ -67,7 +67,6 @@ SKSEPluginLoad(const LoadInterface* skse) {
   auto* plugin = PluginDeclaration::GetSingleton();
   auto version = plugin->GetVersion();
   log::info("{} {} is loading...", plugin->GetName(), version);
-
 
   Init(skse);
   InitializeMessaging();
