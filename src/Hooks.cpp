@@ -29,6 +29,7 @@ uint32_t BeamProjectileHook::GetTag(RE::Projectile* proj) {
 
 RE::BeamProjectile* BeamProjectileHook::m_beamProjectileConstructor(RE::BeamProjectile* proj, void* launchData) {
   proj = BeamProjectileHook::m_originalBeamProjectileConstructor(proj, launchData);
+  auto spell = proj->spell;
 
   // tag fire-and-forget beam spells (mostly lightning bolt spells)
   if (spell) {
