@@ -42,6 +42,26 @@ RE::BeamProjectile* BeamProjectileHook::m_beamProjectileConstructor(RE::BeamProj
   return proj;
 }
 
+REL::Relocation<decltype(TESObjectREFR_SetPositionHook::m_SetPosition)>& TESObjectREFR_SetPositionHook::m_getSetPosition() {
+  // SE: 0x140733cc0+0x2db, in the function BeamProjectile__UpdateImpl_140733cc0
+  // AE: 0x14075ffa0+0x2d7, in the function BeamProjectile__UpdateImpl_14075ffa0
+  static REL::Relocation<decltype(m_SetPosition)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x2db, 0x2d7));
+  return value;
+}
+
+void TESObjectREFR_SetPositionHook::Hook(SKSE::Trampoline& trampoline) {
+  SKSE::log::debug("Starting to hook TESObjectREFR::SetPosition");
+  TESObjectREFR_SetPositionHook::m_originalSetPosition
+    = trampoline.write_call<5>(TESObjectREFR_SetPositionHook::m_getSetPosition().address(), reinterpret_cast<uintptr_t>(TESObjectREFR_SetPositionHook::m_SetPosition));
+  SKSE::log::debug("TESObjectREFR::SetPosition hook written");
+}
+
+void TESObjectREFR_SetPositionHook::m_SetPosition(RE::BeamProjectile* proj, RE::NiPoint3* pos) {
+  // Just don't update the position of projectiles tagged as a lightning bolt-type spell
+  if (proj && BeamProjectileHook::GetTag(proj) != 1) {
+    m_originalSetPosition(proj, pos);
+  }
+}
 void NodeHook::Hook(SKSE::Trampoline& trampoline) {
   // This is a weird one. The original code seems to write to the node's x,y,z coordinates,
   // but we want to make that conditional. So we'll insert some asm code that calls into

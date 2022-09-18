@@ -41,6 +41,7 @@ namespace {
     log::trace("Trampoline initialized.");
 
     BeamProjectileHook::Hook(trampoline);
+    TESObjectREFR_SetPositionHook::Hook(trampoline);
     NodeHook::Hook(trampoline);
   }
 
