@@ -3,7 +3,7 @@
       {
         "kind": "git",
         "repository": "https://gitlab.com/colorglass/vcpkg-colorglass",
-        "baseline": "5dfcd8fb8ee046c47c779ac879b02ddc9d29ac4b",
+        "baseline": "bbd09a56b951d86dec3ea484ec183d00b013b486",
         "packages": [
           "bethesda-skyrim-scripts",
           "commonlibsse-ng",
