@@ -4,14 +4,13 @@
             "kind": "git",
             "repository": "https://gitlab.com/colorglass/vcpkg-colorglass",
             "baseline": "5a11d06fd1b2d7cd6339d6aea48d450309e89cc1",
-            "packages": [
-                "articuno",
-                "bethesda-skyrim-scripts",
-                "commonlibsse-ng",
-                "gluino",
-                "script-extender-common",
-                "skse"
-            ]
+          "packages": [
+            "bethesda-skyrim-scripts",
+            "commonlibsse-ng",
+            "gluino",
+            "script-extender-common",
+            "skse"
+          ]
         }
     ]
 }
