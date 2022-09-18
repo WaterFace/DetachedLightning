@@ -47,7 +47,7 @@ source_group(
 ########################################################################################################################
 find_package(CommonLibSSE CONFIG REQUIRED)
 find_package(ryml CONFIG REQUIRED)
-# find_path(ARTICUNO_INCLUDE_DIRS "articuno/articuno.h")
+find_package(xbyak CONFIG REQUIRED)
 
 add_commonlibsse_plugin(${PROJECT_NAME} SOURCES ${headers} ${sources})
 add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
@@ -65,6 +65,10 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
         ryml::ryml)
+
+target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+        xbyak::xbyak)
 
 target_precompile_headers(${PROJECT_NAME}
         PRIVATE
