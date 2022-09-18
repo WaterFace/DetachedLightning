@@ -109,7 +109,6 @@ void NodeHook::Hook(SKSE::Trampoline& trampoline) {
 
   uintptr_t return_addr = RELOCATION_ID(42568, 43749).address() + RELOCATION_OFFSET(0x2d3, 0x2cf);
 
-  SKSE::log::debug("func_addr: {}, return_addr: {}", uintptr_t(m_moveNode), return_addr);
 
   struct Code : Xbyak::CodeGenerator
   {
