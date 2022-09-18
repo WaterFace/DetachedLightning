@@ -5,6 +5,9 @@ namespace DetachedLightning {
   class BeamProjectileHook {
   public:
     static void Hook(SKSE::Trampoline& trampoline);
+
+    static void TagProjectile(RE::Projectile* proj, uint32_t tag);
+    static uint32_t GetTag(RE::Projectile* proj);
   private:
     static RE::BeamProjectile* m_beamProjectileConstructor(RE::BeamProjectile* proj, void* launchData);
     static REL::Relocation<decltype(m_beamProjectileConstructor)>& m_getBeamProjectileConstructor();
