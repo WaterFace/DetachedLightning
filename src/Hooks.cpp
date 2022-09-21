@@ -8,7 +8,7 @@ REL::Relocation<decltype(BeamProjectileHook::m_beamProjectileConstructor)>& Beam
   // SE: 0x14074b170+0x185, in the function CreateProjectile_14074b170
   // AE: 0x140779220+0x186, in the function CreateProjectile_140779220
 
-  static REL::Relocation<decltype(m_beamProjectileConstructor)> value(RELOCATION_ID(42928, 44108), RELOCATION_OFFSET(0x185, 0x186));
+  static REL::Relocation<decltype(m_beamProjectileConstructor)> value(RELOCATION_ID(42928, 44108), RELOCATION_OFFSET(0x185, 0x186, 0x185));
   return value;
 }
 
@@ -47,7 +47,7 @@ RE::BeamProjectile* BeamProjectileHook::m_beamProjectileConstructor(RE::BeamProj
 REL::Relocation<decltype(TESObjectREFR_SetPositionHook::m_SetPosition)>& TESObjectREFR_SetPositionHook::m_getSetPosition() {
   // SE: 0x140733cc0+0x2db, in the function BeamProjectile__UpdateImpl_140733cc0
   // AE: 0x14075ffa0+0x2d7, in the function BeamProjectile__UpdateImpl_14075ffa0
-  static REL::Relocation<decltype(m_SetPosition)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x2db, 0x2d7));
+  static REL::Relocation<decltype(m_SetPosition)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x2db, 0x2d7, 0x312));
   return value;
 }
 
@@ -68,7 +68,7 @@ void TESObjectREFR_SetPositionHook::m_SetPosition(RE::BeamProjectile* proj, RE::
 REL::Relocation<decltype(RefHandle_GetHook::m_refHandle_Get)>& RefHandle_GetHook::m_getRefHandle_Get() {
   // SE: 0x14074b170+0x117, in the function CreateProjectile_14074b170
   // AE: 0x140779220+0x118, in the function CreateProjectile_140779220
-  static REL::Relocation<decltype(m_refHandle_Get)> value(RELOCATION_ID(42928, 44108), RELOCATION_OFFSET(0x117, 0x118));
+  static REL::Relocation<decltype(m_refHandle_Get)> value(RELOCATION_ID(42928, 44108), RELOCATION_OFFSET(0x117, 0x118, 0x117));
   return value;
 }
 
@@ -107,7 +107,7 @@ void NodeHook::Hook(SKSE::Trampoline& trampoline) {
 
   SKSE::log::debug("Trying to hook into the middle of BeamProjectile__UpdateImpl.");
 
-  uintptr_t return_addr = RELOCATION_ID(42586, 43749).address() + RELOCATION_OFFSET(0x2d3, 0x2cf);
+  uintptr_t return_addr = RELOCATION_ID(42586, 43749).address() + RELOCATION_OFFSET(0x2d3, 0x2cf, 0x30a);
 
 
   struct Code : Xbyak::CodeGenerator
@@ -130,7 +130,7 @@ void NodeHook::Hook(SKSE::Trampoline& trampoline) {
   auto code = trampoline.allocate(codeSize);
   std::memcpy(code, xbyakCode.getCode(), codeSize);
 
-  trampoline.write_branch<5>(RELOCATION_ID(42586, 43749).address() + RELOCATION_OFFSET(0x2c1, 0x2bd), (uintptr_t)code);
+  trampoline.write_branch<5>(RELOCATION_ID(42586, 43749).address() + RELOCATION_OFFSET(0x2c1, 0x2bd, 0x2f8), (uintptr_t)code);
   SKSE::log::debug("Hook into the middle of BeamProjectile__UpdateImpl written.");
 }
 
@@ -163,7 +163,7 @@ void TESObjectREFR_SetRotationXHook::m_SetRotationX(RE::BeamProjectile* proj, RE
 REL::Relocation<decltype(TESObjectREFR_SetRotationXHook::m_SetRotationX)>& TESObjectREFR_SetRotationXHook::m_getSetRotationX() {
   // SE: 0x140733cc0+0x1ba, in the function BeamProjectile__UpdateImpl_140733cc0
   // AE: 0x14075ffa0+0x1b6, in the function BeamProjectile__UpdateImpl_14075ffa0
-  static REL::Relocation<decltype(m_SetRotationX)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x1ba, 0x1b6));
+  static REL::Relocation<decltype(m_SetRotationX)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x1ba, 0x1b6, 0x1ba));
   return value;
 }
 
@@ -186,6 +186,6 @@ void TESObjectREFR_SetRotationZHook::m_SetRotationZ(RE::BeamProjectile* proj, RE
 REL::Relocation<decltype(TESObjectREFR_SetRotationZHook::m_SetRotationZ)>& TESObjectREFR_SetRotationZHook::m_getSetRotationZ() {
   // SE: 0x140733cc0+0x1cd, in the function BeamProjectile__UpdateImpl_140733cc0
   // AE: 0x14075ffa0+0x1c9, in the function BeamProjectile__UpdateImpl_14075ffa0
-  static REL::Relocation<decltype(m_SetRotationZ)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x1cd, 0x1c9));
+  static REL::Relocation<decltype(m_SetRotationZ)> value(RELOCATION_ID(42586, 43749), RELOCATION_OFFSET(0x1cd, 0x1c9, 0x1cd));
   return value;
 }
