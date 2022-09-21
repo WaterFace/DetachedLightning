@@ -11,7 +11,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/msvc_sink.h>
 
-#define RELOCATION_OFFSET(SE, AE) REL::VariantOffset(SE, AE, 0).offset()
+#define RELOCATION_OFFSET(SE, AE, VR) REL::VariantOffset(SE, AE, VR).offset()
 
 // Compatible declarations with other sample projects.
 #define DLLEXPORT __declspec(dllexport)
