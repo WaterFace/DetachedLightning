@@ -1,5 +1,5 @@
 {
-    "version": 2,
+    "version": 3,
     "cmakeMinimumRequired": {
         "major": 3,
         "minor": 21,
@@ -7,52 +7,43 @@
     },
     "configurePresets": [
         {
-            "name": "base",
+            "name": "common",
             "hidden": true,
-          "cacheVariables": {
-            "CMAKE_CXX_FLAGS": "$env{COMMONLIBSSE_COMPILER} $env{COMMONLIBSSE_PLATFORM} $env{COMMONLIBSSE_TEXT}"
-          }
+            "cacheVariables": {
+                "SKSE_SUPPORT_XBYAK": "ON"
+            },
+            "binaryDir": "${sourceDir}/build"
         },
         {
             "name": "vcpkg",
             "hidden": true,
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "VCPKG_TARGET_TRIPLET": "x64-windows-skse",
-                "VCPKG_HOST_TRIPLET": "x64-windows-skse",
-                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake",
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "type": "STRING",
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                },
+                "VCPKG_OVERLAY_PORTS": {
+                    "type": "STRING",
+                    "value": "${sourceDir}/cmake/ports/"
+                },
+                "VCPKG_TARGET_TRIPLET": "x64-windows-static-md"
+            }
+        },
+        {
+            "name": "win64",
+            "hidden": true,
+            "architecture": "x64",
+            "cacheVariables": {
                 "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
-            }
-        },
-        {
-            "name": "win32",
-            "hidden": true,
-            "environment": {
-                "COMMONLIBSSE_PLATFORM": "-DWIN32_LEAN_AND_MEAN -DNOMINMAX"
-            }
-        },
-        {
-            "name": "win32-unicode",
-            "hidden": true,
-            "inherits": "win32",
-            "environment": {
-                "COMMONLIBSSE_TEXT": "-DUNICODE -D_UNICODE"
-            }
-        },
-        {
-            "name": "x64",
-            "hidden": true,
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
             }
         },
         {
             "name": "msvc",
             "hidden": true,
-            "environment": {
-                "COMMONLIBSSE_COMPILER": "/permissive- /Zc:preprocessor /EHsc $penv{CXXFLAGS}"
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX $penv{CXXFLAGS}"
             },
+            "generator": "Visual Studio 17 2022",
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
                     "intelliSenseMode": "windows-msvc-x64",
@@ -62,191 +53,67 @@
             }
         },
         {
-            "name": "clang-cl",
-            "hidden": true,
+            "name": "ALL",
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang-cl",
-                "CMAKE_CXX_COMPILER": "clang-cl"
+                "BUILD_SKYRIM": true,
+                "ENABLE_SKYRIM_AE": "ON",
+                "ENABLE_SKYRIM_SE": "ON",
+                "ENABLE_SKYRIM_VR": "ON"
             },
-            "environment": {
-                "COMMONLIBSSE_COMPILER": "/permissive- /EHsc -Wno-overloaded-virtual -Wno-delete-non-abstract-non-virtual-dtor -D__cpp_lib_char8_t -D__cpp_consteval -D__cpp_lib_format $penv{CXXFLAGS}"
+            "inherits": [
+                "common",
+                "vcpkg",
+                "win64",
+                "msvc"
+            ]
+        },
+        {
+            "name": "ALL (autodeploy)",
+            "cacheVariables": {
+                "BUILD_SKYRIM": true,
+                "ENABLE_SKYRIM_AE": "ON",
+                "ENABLE_SKYRIM_SE": "ON",
+                "ENABLE_SKYRIM_VR": "ON",
+                "AUTO_PLUGIN_DEPLOYMENT": "ON"
             },
-            "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "intelliSenseMode": "windows-clang-x64",
-                    "enableMicrosoftCodeAnalysis": true,
-                    "enableClangTidyCodeAnalysis": true
-                }
-            }
-        },
-        {
-            "name": "build-tests",
-            "displayName": "Build Tests",
-            "hidden": true,
-            "description": "Include test suites in the build.",
-            "cacheVariables": {
-                "BUILD_TESTS": {
-                    "type": "STRING",
-                    "value": "ON"
-                }
-            }
-        },
-        {
-            "name": "build-debug-msvc",
             "inherits": [
-                "base",
+                "common",
                 "vcpkg",
-                "win32-unicode",
-                "x64",
-                "build-tests",
+                "win64",
                 "msvc"
-            ],
-            "displayName": "Debug",
-            "description": "Debug build for testing.",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/debug-msvc",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": {
-                    "type": "STRING",
-                    "value": "Debug"
-                }
-            }
-        },
-        {
-            "name": "build-release-msvc",
-            "inherits": [
-                "base",
-                "vcpkg",
-                "win32-unicode",
-                "x64",
-                "build-tests",
-                "msvc"
-            ],
-            "displayName": "Release",
-            "description": "Optimized release build.",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/release-msvc",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": {
-                    "type": "STRING",
-                    "value": "Release"
-                }
-            }
-        },
-        {
-            "name": "build-debug-clang-cl",
-            "inherits": [
-                "base",
-                "vcpkg",
-                "win32-unicode",
-                "x64",
-                "build-tests",
-                "clang-cl"
-            ],
-            "displayName": "Debug",
-            "description": "Debug build for testing.",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/debug-clang",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": {
-                    "type": "STRING",
-                    "value": "Debug"
-                }
-            }
-        },
-        {
-            "name": "build-release-clang-cl",
-            "inherits": [
-                "base",
-                "vcpkg",
-                "win32-unicode",
-                "x64",
-                "build-tests",
-                "clang-cl"
-            ],
-            "displayName": "Release",
-            "description": "Optimized release build.",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/release-clang",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": {
-                    "type": "STRING",
-                    "value": "Release"
-                }
-            }
+            ]
         }
     ],
     "buildPresets": [
         {
-            "name": "release-msvc",
-            "displayName": "Release (MSVC)",
-            "configurePreset": "build-release-msvc",
-            "description": "Optimized release build."
+            "name": "Release",
+            "configuration": "Release",
+            "configurePreset": "ALL"
         },
         {
-            "name": "debug-msvc",
-            "displayName": "Debug (MSVC)",
-            "configurePreset": "build-debug-msvc",
-            "description": "Debug build for testing."
+            "name": "Debug",
+            "configuration": "Debug",
+            "configurePreset": "ALL"
         },
         {
-            "name": "release-clang-cl",
-            "displayName": "Release (Clang)",
-            "configurePreset": "build-release-clang-cl",
-            "description": "Optimized release build."
+            "name": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo",
+            "configurePreset": "ALL"
         },
         {
-            "name": "debug-clang-cl",
-            "displayName": "Debug (Clang)",
-            "configurePreset": "build-debug-clang-cl",
-            "description": "Debug build for testing."
-        }
-    ],
-    "testPresets": [
-        {
-            "name": "tests-all",
-            "displayName": "All Tests",
-            "configurePreset": "build-debug-msvc",
-            "output": {
-                "outputOnFailure": true
-            },
-            "execution": {
-                "noTestsAction": "error",
-                "stopOnFailure": false
-            }
+            "name": "Release (autodeploy)",
+            "configuration": "Release",
+            "configurePreset": "ALL (autodeploy)"
         },
         {
-            "name": "tests-unit",
-            "displayName": "Unit Tests",
-            "description": "Runs tests that do not require any Skyrim module loaded into the process.",
-            "inherits": "tests-all",
-            "filter": {
-                "exclude": {
-                    "label": "[integration],[e2e]"
-                }
-            }
+            "name": "Debug (autodeploy)",
+            "configuration": "Debug",
+            "configurePreset": "ALL (autodeploy)"
         },
         {
-            "name": "tests-integration",
-            "displayName": "Integration Tests",
-            "description": "Runs tests that interact with a Skyrim module at rest (do not require the Skyrim module to have run any main function).",
-            "inherits": "tests-all",
-            "filter": {
-                "include": {
-                    "label": "[integration]"
-                }
-            }
-        },
-        {
-            "name": "tests-e2e",
-            "displayName": "End-to-End Tests",
-            "description": "Runs test that depend on a fully running Skyrim engine in the process.",
-            "inherits": "tests-all",
-            "filter": {
-                "include": {
-                    "label": "[e2e]"
-                }
-            }
+            "name": "RelWithDebInfo (autodeploy)",
+            "configuration": "RelWithDebInfo",
+            "configurePreset": "ALL (autodeploy)"
         }
     ]
 }

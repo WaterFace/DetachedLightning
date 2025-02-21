@@ -1,16 +1,14 @@
 {
-    "registries": [
-      {
-        "kind": "git",
-        "repository": "https://gitlab.com/colorglass/vcpkg-colorglass",
-        "baseline": "bbd09a56b951d86dec3ea484ec183d00b013b486",
-        "packages": [
-          "bethesda-skyrim-scripts",
-          "commonlibsse-ng",
-          "gluino",
-          "script-extender-common",
-          "skse"
-        ]
-      }
-    ]
+  "default-registry": {
+    "kind": "git",
+    "baseline": "20a72ce99b12dd0ebfea5d39f32681bd68b19d03",
+    "repository": "https://github.com/microsoft/vcpkg"
+  },
+  "registries": [
+    {
+      "kind": "artifact",
+      "location": "https://github.com/microsoft/vcpkg-ce-catalog/archive/refs/heads/main.zip",
+      "name": "microsoft"
+    }
+  ]
 }
